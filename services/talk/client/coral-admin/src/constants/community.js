@@ -1,0 +1,22 @@
+const prefix = 'COMMUNITY';
+
+export const FETCH_USERS_REQUEST = `${prefix}_FETCH_USERS_REQUEST`;
+export const FETCH_USERS_SUCCESS = `${prefix}_FETCH_USERS_SUCCESS`;
+export const FETCH_USERS_FAILURE = `${prefix}_FETCH_USERS_FAILURE`;
+
+export const SORT_UPDATE = `${prefix}_SORT_UPDATE`;
+export const SET_PAGE = `${prefix}_SET_PAGE`;
+export const SET_ROLE = `${prefix}_SET_ROLE`;
+export const SET_COMMENTER_STATUS = `${prefix}_SET_COMMENTER_STATUS`;
+
+export const FETCH_FLAGGED_COMMENTERS_REQUEST = `${prefix}_FETCH_FLAGGED_COMMENTERS_REQUEST`;
+export const FETCH_FLAGGED_COMMENTERS_SUCCESS = `${prefix}_FETCH_FLAGGED_COMMENTERS_SUCCESS`;
+export const FETCH_FLAGGED_COMMENTERS_FAILURE = `${prefix}_FETCH_FLAGGED_COMMENTERS_FAILURE`;
+
+export const SHOW_BANUSER_DIALOG = `${prefix}_SHOW_BANUSER_DIALOG`;
+export const HIDE_BANUSER_DIALOG = `${prefix}_HIDE_BANUSER_DIALOG`;
+
+export const SHOW_REJECT_USERNAME_DIALOG = `${prefix}_SHOW_REJECT_USERNAME_DIALOG`;
+export const HIDE_REJECT_USERNAME_DIALOG = `${prefix}_HIDE_REJECT_USERNAME_DIALOG`;
+
+export const SET_SEARCH_VALUE = `${prefix}_SET_SEARCH_VALUE`;
