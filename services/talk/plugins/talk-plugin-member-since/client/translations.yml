@@ -1,0 +1,12 @@
+en:
+  talk-plugin-member-since:
+    member_since: "Member Since"
+es:
+  talk-plugin-member-since:
+    member_since: "Miembro desde"
+zh_CN:
+  talk-plugin-member-since:
+    member_since: "成员加入日期"
+zh_TW:
+  talk-plugin-member-since:
+    member_since: "入會日期"

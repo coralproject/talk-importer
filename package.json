@@ -1,0 +1,24 @@
+{
+  "name": "talk-importer-livefyre",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coralproject/talk-importer-livefyre.git"
+  },
+  "author": "The Coral Project",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/coralproject/talk-importer-livefyre/issues"
+  },
+  "homepage": "https://github.com/coralproject/talk-importer-livefyre#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "highland": "^3.0.0-beta.5",
+    "yargs": "^10.1.1"
+  }
+}

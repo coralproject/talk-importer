@@ -1,0 +1,27 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.leftColumn {
+  padding: 42px 56px;
+  width: 234px;
+}
+
+.saveBox {
+  margin-top: 38px;
+}
+
+.changedSave {
+  background-color: #00796B;
+  color: white;
+}
+
+.mainContent {
+  width: calc(100% - 300px);
+  padding: 10px 14px 80px 14px;
+  box-sizing: border-box;
+  max-width: 718px;
+}
+

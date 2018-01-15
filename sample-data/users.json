@@ -1,0 +1,2 @@
+{"display_name": "foobar", "name": {"last": "bar", "first": "foo"}, "email": "foobar@hotmail.com", "email_notifications": {"moderator_comments": "never", "moderator_flags": "never", "likes": "immediately", "comments": "never", "replies": "immediately"}, "id": "123456"}
+{"display_name": "foobaz", "name": {"last": "baz", "first": "foo"}, "email": "baz@geocities.org", "email_notifications": {"moderator_comments": "never", "moderator_flags": "never", "likes": "immediately", "comments": "never", "replies": "immediately"}, "id": "78910"}

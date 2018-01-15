@@ -1,0 +1,16 @@
+.count {
+  display: inline-block;
+  background: #616161;
+  margin: 2px;
+  vertical-align: middle;
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-left: 5px;
+  line-height: 18px;
+  box-sizing: border-box;
+  height: 18px;
+  right: 0;
+  margin-top: 0px;
+  font-size: 12px;
+  color: white;
+}
