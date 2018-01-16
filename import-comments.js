@@ -39,8 +39,7 @@ function saveComment(comment) {
 
 /**
  * Log a quick error message
- * @param  {[type]} message [description]
- * @return {[type]}         [description]
+ * @param  {String} message
  */
 function logError({ message }) {
   console.log(JSON.stringify({

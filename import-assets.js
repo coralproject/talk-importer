@@ -3,40 +3,35 @@
 const h = require('highland'),
   { file, concurrency = 10 } = require('yargs').argv,
   { parseFileStream } = require('./services/pipelines'),
-  { translateUser } = require('./services/translations'),
+  { translateAsset } = require('./services/translations'),
   { readFile } = require('./services/fs'),
-  { userService, userModel } = require('./services/talk-services');
+  { assetService } = require('./services/talk-services');
 
 h.of(file)
   .flatMap(readFile)
   .pipe(parseFileStream)
-  .map(translateUser)
-  .map(saveUser)
+  .slice(0, 1)
+  .map(translateAsset)
+  .map(saveAsset)
   .parallel(concurrency)
   .errors(logError)
   .each(logSuccess)
   .done(process.exit);
 
 /**
- * Find or create a user based on the profile
+ * Find or create a comment based on the id
  * created in the translation.
  *
- * @param  {Object} user
+ * @param  {Object} asset
  * @return {Stream}
  */
-function saveUser(user) {
-  var profile = user.profiles[0];
-
-  return h(userService.findOrCreateExternalUser({
-    id: profile.id,
-    displayName: user.username,
-    provider: profile.provider
-  }))
-    .flatMap(a => {
-      a = Object.assign(a, user);
-      return h(a.save());
-    })
-}
+ function saveAsset(asset) {
+   return h(assetService.findOrCreateByUrl(asset.url))
+     .flatMap(a => {
+       a = Object.assign(a, asset);
+       return h(a.save());
+     })
+ }
 
 /**
  * Log a quick error message
@@ -57,6 +52,6 @@ function logError({ message }) {
 function logSuccess({ id }) {
   console.log(JSON.stringify({
     status: 'success',
-    user_id: id
+    comment: id
   }));
 }
