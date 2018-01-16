@@ -10,7 +10,6 @@ const h = require('highland'),
 h.of(file)
   .flatMap(readFile)
   .pipe(parseFileStream)
-  .slice(0, 1)
   .map(translateAsset)
   .map(saveAsset)
   .parallel(concurrency)

@@ -23,14 +23,27 @@ Make sure you have received an export of your user and comment data from LiveFyr
 
 ## Users
 ```
-$ node import-users.js --file <PATH_TO_USER_DATA> --concurrency <NUMBER
+$ node import-users.js --file <PATH_TO_USER_DATA> --concurrency <NUMBER>
 ```
 
-The above command will import users into your talk instance. _This should be done before importing assets_.
+The above command will import users into your Talk instance. _This should be done before importing assets_.
 
-## Comments (Coming Soon)
+## Assets
 
-TKTKTK
+```
+node import-assets.js --file <PATH_TO_ASSET_DATA> --concurrency <NUMBER>
+```
+
+The above command will import all assets in the file into Talk. _This should be done before importing comments_.
+
+## Comments
+
+```
+node import-comments.js --file <PATH_TO_ASSET_DATA> --concurrency <NUMBER>
+```
+
+The above command will import all comments in the file into Talk. _This should be done after importing assets and users_.
+
 
 ## Likes (Coming Soon)
 
