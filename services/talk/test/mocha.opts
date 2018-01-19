@@ -1,5 +1,0 @@
-test/helpers/*.js
-test/server
---recursive
---colors
---sort
