@@ -1,13 +1,12 @@
-'use strict';
+const h = require('highland');
+const { file, concurrency = 10 } = require('yargs').argv;
+const { parseFileStream } = require('./services/pipelines');
+const { translateAsset } = require('./services/translations');
+const { readFile } = require('./services/fs');
+const { services: { Assets } } = require('./services/talk/graph/connectors');
 
-const h = require('highland'),
-  { file, concurrency = 10 } = require('yargs').argv,
-  { parseFileStream } = require('./services/pipelines'),
-  { translateAsset } = require('./services/translations'),
-  { readFile } = require('./services/fs'),
-  { assetService } = require('./services/talk-services');
-
-h.of(file)
+h
+  .of(file)
   .flatMap(readFile)
   .pipe(parseFileStream)
   .map(translateAsset)
@@ -24,23 +23,24 @@ h.of(file)
  * @param  {Object} asset
  * @return {Stream}
  */
- function saveAsset(asset) {
-   return h(assetService.findOrCreateByUrl(asset.url))
-     .flatMap(a => {
-       a = Object.assign(a, asset);
-       return h(a.save());
-     })
- }
+function saveAsset(asset) {
+  return h(Assets.findOrCreateByUrl(asset.url)).flatMap(a => {
+    a = Object.assign(a, asset);
+    return h(a.save());
+  });
+}
 
 /**
  * Log a quick error message
  * @param  {String} message
  */
 function logError({ message }) {
-  console.log(JSON.stringify({
-    status: 'error',
-    message
-  }));
+  console.log(
+    JSON.stringify({
+      status: 'error',
+      message,
+    })
+  );
 }
 
 /**
@@ -49,8 +49,10 @@ function logError({ message }) {
  * @param  {String} id
  */
 function logSuccess({ id }) {
-  console.log(JSON.stringify({
-    status: 'success',
-    comment: id
-  }));
+  console.log(
+    JSON.stringify({
+      status: 'success',
+      comment: id,
+    })
+  );
 }

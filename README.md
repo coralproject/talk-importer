@@ -3,7 +3,9 @@
 Importer of comments from LiveFyre exports.
 
 # Getting Started
+
 ## Install
+
 ```
 $ node -v
 v8.x.x
@@ -11,17 +13,21 @@ v8.x.x
 $ yarn
 $ git submodule update --init
 $ cd services/talk
-$ yarnq
+$ yarn
 ```
+
 ## Config
+
 Add a `.env` file in the project root that contains the required environment variables for the Talk installation you are migrating into.
 
 # Data Source
+
 Make sure you have received an export of your user and comment data from LiveFyre and saved to your local file system. These files should be in the format of newline separated JSON objects.
 
 # Running Script
 
 ## Users
+
 ```
 $ node import-users.js --file <PATH_TO_USER_DATA> --concurrency <NUMBER>
 ```

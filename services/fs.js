@@ -1,6 +1,4 @@
-'use strict';
-
-const h = require('highland'),
-  fs = require('fs');
+const h = require('highland');
+const fs = require('fs');
 
 module.exports.readFile = h.wrapCallback(fs.readFile);

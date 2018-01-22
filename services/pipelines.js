@@ -1,5 +1,3 @@
-'use strict';
-
 const h = require('highland');
 
 /**
