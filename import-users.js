@@ -1,13 +1,12 @@
-'use strict';
+const h = require('highland');
+const { file, concurrency = 10 } = require('yargs').argv;
+const { parseFileStream } = require('./services/pipelines');
+const { translateUser } = require('./services/translations');
+const { readFile } = require('./services/fs');
+const { services: { Users } } = require('./services/talk/graph/connectors');
 
-const h = require('highland'),
-  { file, concurrency = 10 } = require('yargs').argv,
-  { parseFileStream } = require('./services/pipelines'),
-  { translateUser } = require('./services/translations'),
-  { readFile } = require('./services/fs'),
-  { userService, userModel } = require('./services/talk-services');
-
-h.of(file)
+h
+  .of(file)
   .flatMap(readFile)
   .pipe(parseFileStream)
   .map(translateUser)
@@ -27,15 +26,16 @@ h.of(file)
 function saveUser(user) {
   var profile = user.profiles[0];
 
-  return h(userService.findOrCreateExternalUser({
-    id: profile.id,
-    displayName: user.username,
-    provider: profile.provider
-  }))
-    .flatMap(a => {
-      a = Object.assign(a, user);
-      return h(a.save());
+  return h(
+    Users.findOrCreateExternalUser({
+      id: profile.id,
+      displayName: user.username,
+      provider: profile.provider,
     })
+  ).flatMap(a => {
+    a = Object.assign(a, user);
+    return h(a.save());
+  });
 }
 
 /**
@@ -43,10 +43,12 @@ function saveUser(user) {
  * @param  {String} message
  */
 function logError({ message }) {
-  console.log(JSON.stringify({
-    status: 'error',
-    message
-  }));
+  console.log(
+    JSON.stringify({
+      status: 'error',
+      message,
+    })
+  );
 }
 
 /**
@@ -55,8 +57,10 @@ function logError({ message }) {
  * @param  {String} id
  */
 function logSuccess({ id }) {
-  console.log(JSON.stringify({
-    status: 'success',
-    user_id: id
-  }));
+  console.log(
+    JSON.stringify({
+      status: 'success',
+      user_id: id,
+    })
+  );
 }

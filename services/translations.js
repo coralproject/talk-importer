@@ -1,7 +1,5 @@
-'use strict';
-
-const h = require('highland'),
-  striptags = require('striptags');
+const h = require('highland');
+const striptags = require('striptags');
 
 /**
  * Turn a LiveFyre user into a user for Talk
@@ -13,10 +11,12 @@ function translateUser(fyre) {
   var talk = {};
 
   talk.id = fyre.id;
-  talk.profiles = [{
-    id: fyre.email,
-    provider: 'local' // TODO: 'local' is the Talk default, but should this be configurable?
-  }];
+  talk.profiles = [
+    {
+      id: fyre.email,
+      provider: 'local', // TODO: 'local' is the Talk default, but should this be configurable?
+    },
+  ];
   talk.username = fyre.display_name;
   talk.lowercaseUsername = fyre.display_name && fyre.display_name.toLowerCase();
   talk.created_at = fyre.created || new Date().toISOString(); // TODO: If the data doesn't have created property then the users history won't be maintained
@@ -35,21 +35,20 @@ function translateUser(fyre) {
 function translateComment({ id, comments }) {
   // Return a stream of the comments, we'll merge this back
   // into the main import stream
-  return h(comments)
-    .map(function (comment) {
-      var createdDate = new Date(comment.created).toISOString(); // Store date, we'll use it twice
+  return h(comments).map(function(comment) {
+    var createdDate = new Date(comment.created).toISOString(); // Store date, we'll use it twice
 
-      return {
-        status: 'ACCEPTED',
-        id: comment.id,
-        author_id: comment.author_id, // get rid of livefyre id suffix
-        parent_id: comment.parent_id || null,
-        created_at: createdDate,
-        updated_at: createdDate,
-        asset_id: id, // The id from the actual article
-        body: striptags(comment.body_html, [])
-      }
-    });
+    return {
+      status: 'ACCEPTED',
+      id: comment.id,
+      author_id: comment.author_id, // get rid of livefyre id suffix
+      parent_id: comment.parent_id || null,
+      created_at: createdDate,
+      updated_at: createdDate,
+      asset_id: id, // The id from the actual article
+      body: striptags(comment.body_html, []),
+    };
+  });
 }
 
 /**
@@ -63,7 +62,7 @@ function translateAsset(fyre) {
     id: fyre.id,
     url: fyre.source, // This url needs to be added in the permitted domains section of your Talk admin
     title: fyre.title,
-    scraped: null // Set to null because next visit to page will trigger scrape
+    scraped: null, // Set to null because next visit to page will trigger scrape
   };
 }
 
