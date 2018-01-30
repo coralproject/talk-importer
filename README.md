@@ -1,8 +1,10 @@
-# Talk LiveFyre Importer
+# Talk Importer
 
-Importer of comments from LiveFyre exports.
+Importer of comments from various exports based on provided strategies.
 
-# Getting Started
+## Available Import Strategies
+
+- Livefyre
 
 ## Install
 
@@ -30,15 +32,15 @@ variables for the Talk installation you are migrating into.
 # Data Source
 
 Make sure you have received an export of your user and comment data from
-LiveFyre and saved to your local file system. These files should be in the
-format of newline separated JSON objects.
+your provider and saved to your local file system. These files should be in the
+format required by the importer.
 
 # Running Script
 
 ## Users
 
 ```
-$ node import-users.js --file <PATH_TO_USER_DATA> --concurrency <NUMBER>
+$ ./cli.js users <PATH_TO_USER_DATA> --concurrency <NUMBER>
 ```
 
 The above command will import users into your Talk instance. _This should be done before importing assets_.
@@ -46,7 +48,7 @@ The above command will import users into your Talk instance. _This should be don
 ## Assets
 
 ```
-node import-assets.js --file <PATH_TO_ASSET_DATA> --concurrency <NUMBER>
+$ ./cli.js assets <PATH_TO_ASSET_DATA> --concurrency <NUMBER>
 ```
 
 The above command will import all assets in the file into Talk. _This should be done before importing comments_.
@@ -54,15 +56,15 @@ The above command will import all assets in the file into Talk. _This should be 
 ## Comments
 
 ```
-node import-comments.js --file <PATH_TO_ASSET_DATA> --concurrency <NUMBER>
+$ ./cli.js comments <PATH_TO_COMMENTS_DATA> --concurrency <NUMBER>
 ```
 
 The above command will import all comments in the file into Talk. _This should be done after importing assets and users_.
 
 
-## Likes (Coming Soon)
+## Actions
 
-TKTKTK
+**(Coming Soon)**
 
 ## License
 
