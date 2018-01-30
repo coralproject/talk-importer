@@ -1,21 +1,24 @@
 {
-  "name": "talk-importer-livefyre",
+  "name": "@coralproject/talk-importer",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "talk-importer": "./cli.js"
+  },
   "scripts": {
     "lint": "eslint ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coralproject/talk-importer-livefyre.git"
+    "url": "git+https://github.com/coralproject/talk-importer.git"
   },
   "author": "The Coral Project",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/coralproject/talk-importer-livefyre/issues"
+    "url": "https://github.com/coralproject/talk-importer/issues"
   },
-  "homepage": "https://github.com/coralproject/talk-importer-livefyre#readme",
+  "homepage": "https://github.com/coralproject/talk-importer#readme",
   "dependencies": {
     "dotenv": "^4.0.0",
     "highland": "^3.0.0-beta.5",
