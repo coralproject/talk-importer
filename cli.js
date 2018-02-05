@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const h = require('highland');
+const fs = require('fs');
 const resolve = require('resolve');
 const yargs = require('yargs');
 const path = require('path');
@@ -11,16 +12,17 @@ const { parseJSONStream, save } = require('./services/pipelines');
 /**
  * Describe all the available importing strategies.
  */
-const strategies = ['livefyre'];
+const strategies = fs.readdirSync(path.resolve(__dirname, 'strategies')).sort();
 
 /**
  * Log a quick error message
  * @param  {String} message
  */
-const logError = ({ message }) => {
+const logError = ({ id, message }) => {
   console.log(
     JSON.stringify({
       status: 'error',
+      id,
       message,
     })
   );
@@ -60,6 +62,8 @@ const execute = (importer, { file, strategy: strategyName, concurrency }) => {
   // Load the strategy to perform the import.
   const strategy = require(modulePath);
 
+  const readPipe = get(strategy, 'read', readFile);
+
   // Create the pipes we'll use to parse the data.
   const parsePipe = get(strategy, 'parse', parseJSONStream);
 
@@ -76,7 +80,7 @@ const execute = (importer, { file, strategy: strategyName, concurrency }) => {
 
   return h
     .of(file)
-    .flatMap(readFile)
+    .flatMap(readPipe)
     .pipe(parsePipe)
     .map(translatePipe)
     .parallel(concurrency)

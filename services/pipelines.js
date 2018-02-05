@@ -1,8 +1,9 @@
 const h = require('highland');
 const {
   services: { Assets, Comments, Users },
-  models: { Comment },
+  models: { Comment, User },
 } = require('./talk/graph/connectors');
+const { get } = require('lodash');
 
 /**
  * We're dealing with Buffers which are just strings
@@ -48,10 +49,19 @@ module.exports.save = {
     return h(Comment.findOne({ id: comment.id })).flatMap(foundComment => {
       if (foundComment) {
         Object.assign(foundComment, comment);
-        return h(foundComment.save());
+        return h(
+          foundComment.save().catch(err => {
+            err.id = comment.id;
+            throw err;
+          })
+        );
       }
-      console.log('comment', comment);
-      return h(Comments.publicCreate(comment));
+      return h(
+        Comments.publicCreate(comment).catch(err => {
+          err.id = comment.id;
+          throw err;
+        })
+      );
     });
   },
 
@@ -63,17 +73,25 @@ module.exports.save = {
    * @return {Stream}
    */
   users: user => {
-    var profile = user.profiles[0];
+    const profile = get(user, 'profiles[0]', null);
 
     return h(
       Users.findOrCreateExternalUser({
         id: profile.id,
         displayName: user.username,
         provider: profile.provider,
+      }).catch(err => {
+        err.id = user.id;
+        throw err;
       })
     ).flatMap(a => {
       a = Object.assign(a, user);
-      return h(a.save());
+      return h(
+        a.save().catch(err => {
+          err.id = user.id;
+          throw err;
+        })
+      );
     });
   },
 };
