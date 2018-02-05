@@ -5,6 +5,7 @@ Importer of comments from various exports based on provided strategies.
 ## Available Import Strategies
 
 - Livefyre
+- Civil
 
 ## Install
 
