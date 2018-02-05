@@ -1,9 +1,13 @@
 const h = require('highland');
 const {
   services: { Assets, Comments, Users },
-  models: { Comment, User },
+  models: { Comment },
 } = require('./talk/graph/connectors');
 const { get } = require('lodash');
+const { PassThrough } = require('stream');
+var saxpath = require('saxpath');
+var sax = require('sax');
+const { parseString } = require('xml2js');
 
 /**
  * We're dealing with Buffers which are just strings
@@ -20,6 +24,50 @@ module.exports.parseJSONStream = h.pipeline(
   h.compact(),
   h.map(JSON.parse)
 );
+
+const parseXMLPhase = xml => {
+  // create a new Stream
+  return h((push, next) => {
+    // do something async when we read from the Stream
+    parseString(xml, (err, data) => {
+      push(err, data);
+      push(null, h.nil);
+    });
+  });
+};
+
+const parseXMLStream = selector => xml =>
+  h((push, next) => {
+    const parser = sax.createStream(true);
+    const streamer = new saxpath.SaXPath(parser, selector);
+
+    xml.pipe(parser);
+
+    streamer.on('match', match => {
+      push(null, match);
+    });
+
+    streamer.on('end', () => {
+      push(null, h.nil);
+    });
+  });
+
+module.exports.parseXML = selector =>
+  h.pipeline(
+    h.map(buf => {
+      const stream = new PassThrough();
+      stream.end(buf);
+      return stream;
+    }),
+    h.map(parseXMLStream(selector))
+  );
+
+module.exports.translateXML = translation => stream =>
+  h(stream)
+    .map(parseXMLPhase)
+    .parallel(10)
+    .map(translation)
+    .uniqBy(({ id: a }, { id: b }) => a === b);
 
 /**
  * Utilities for saving the transformed content.
