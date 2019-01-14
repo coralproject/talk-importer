@@ -1,3 +1,4 @@
+const h = require('highland');
 module.exports = {
   /**
    * Turn a LiveFyre user into a user for Talk
@@ -20,6 +21,6 @@ module.exports = {
       fyre.display_name && fyre.display_name.toLowerCase();
     talk.created_at = fyre.created || new Date().toISOString(); // TODO: If the data doesn't have created property then the users history won't be maintained
 
-    return talk;
+    return h([talk]);
   },
 };
