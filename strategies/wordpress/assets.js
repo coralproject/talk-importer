@@ -3,14 +3,14 @@ module.exports = {
   /**
    * Turn the collection into a Talk asset
    *
-   * @param {Object} fyre
+   * @param {Object} row
    * @return {Object}
    */
-  translate: fyre => {
+  translate: row => {
     var asset = {
-      id: fyre.comment_post_ID,
-      url: `https://yourdomainhere.com/asset/${fyre.comment_post_ID}`, // This url needs to be added in the permitted domains section of your Talk admin
-      title: fyre.comment_post_ID,
+      id: row.comment_post_ID,
+      url: `http://yourdomainhere.com/?p=${row.comment_post_ID}`, // This url needs to be added in the permitted domains section of your Talk admin
+      title: row.comment_post_ID,
       scraped: null, // Set to null because next visit to page will trigger scrape
     };
     return h([asset]);
